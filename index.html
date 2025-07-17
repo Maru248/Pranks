@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Image Generator – AI‑Powered Image Creation</n  <meta name="description" content="Create next‑gen images in seconds with our AI tool."/>
-  <meta name="author" content="Image Generator Inc."/>
-  <!-- Content Security Policy -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' https://cdnjs.cloudflare.com; connect-src 'self';" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Generator – AI‑Powered Image Creation</title>
+  <meta name="description" content="Create next‑gen images in seconds with our AI tool.">
+  <meta name="author" content="Image Generator Inc.">
+  <!-- Simple CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self'; connect-src 'self';">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* Reset & Base */
-    html, body { margin:0; padding:0; overflow-x:hidden; overflow-y:auto; }
-    * { box-sizing:border-box; }
+    /* --- Reset & Variables --- */
+    html, body { margin:0; padding:0; height:100%; overflow-x:hidden; overflow-y:auto; }
+    *, *::before, *::after { box-sizing: border-box; }
     :root {
       --bg-dark: #0a0c14;
       --bg-light: #f7f7f7;
@@ -20,55 +21,161 @@
       --text-light: #f0f4f8;
       --text-dark: #111;
       --card-bg: rgba(0,229,255,0.1);
+      --font: 'Roboto', sans-serif;
     }
-    body[data-theme="dark"] { background: var(--bg-dark); color: var(--text-light); }
+    body { font-family: var(--font); background: var(--bg-dark); color: var(--text-light); position: relative; }
     body[data-theme="light"] { background: var(--bg-light); color: var(--text-dark); }
 
-    /* Navigation */
-    nav {
-      background: rgba(17,24,38,0.8);
-      padding:20px; text-align:center; position:sticky; top:0; z-index:2;
+    /* --- Animated Gradient Background --- */
+    body::before {
+      content: '';
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background: linear-gradient(60deg,#0f1a2f,#1b273f,#001f3f,#0a0c14);
+      background-size:400% 400%;
+      animation: gradientBG 30s ease infinite;
+      z-index: -3;
     }
-    nav a, nav button { display:inline-block; margin:0 12px; color:inherit; text-decoration:none; font-weight:500; background:none; border:none; cursor:pointer; }
-    nav button { font-size:1.2rem; }
+    @keyframes gradientBG {
+      0%,100% { background-position:0% 50%; }
+      50% { background-position:100% 50%; }
+    }
 
-    /* Hero & Prompt */
-    header { padding:30px 20px 20px; text-align:center; position:relative; z-index:1; }
-    header h1 { font-size:3.5rem; color:var(--accent); animation:glow 2s infinite alternate; }
-    header p { margin-top:8px; font-size:1.1rem; color:var(--text-light); }
-    @keyframes glow { 0%,100%{ text-shadow:0 0 8px var(--accent),0 0 16px var(--accent-dark);} 50%{ text-shadow:0 0 16px var(--accent),0 0 24px var(--accent-dark);} }
-    .prompt-ui { margin-top:20px; }
-    .prompt-ui input { padding:10px; width:60%; max-width:300px; border-radius:4px; border:1px solid var(--accent-dark); }
-    .prompt-ui button { padding:10px 20px; margin-left:8px; background:var(--accent); border:none; color:var(--bg-dark); border-radius:4px; cursor:pointer; }
+    /* --- Particle Canvas --- */
+    #bg-canvas {
+      position: fixed; top:0; left:0; width:100%; height:100%; z-index:-2;
+    }
 
-    /* Loading */
-    #loading { margin-top:16px; }
-    #loading progress { width:200px; }
+    /* --- Navigation --- */
+    nav {
+      position: sticky; top:0; z-index:2;
+      background: rgba(17,24,38,0.8);
+      padding: 12px 0;
+      text-align: center;
+    }
+    nav a, nav button {
+      margin: 0 10px; color: inherit; text-decoration:none;
+      font-weight:500; background:none; border:none; cursor:pointer;
+      font-size: 1rem;
+    }
+    nav button { font-size: 1.2rem; }
+    nav a:hover, nav button:hover { color: var(--accent); }
 
-    /* Container & Gallery */
-    .container { width:90%; max-width:1000px; margin:-20px auto 60px; position:relative; z-index:1; }
-    .image-section { background:var(--card-bg); backdrop-filter:blur(8px); padding:20px; border-radius:8px; border:1px solid var(--accent-dark); animation:float 6s ease-in-out infinite; }
-    @keyframes float {0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-    .image-section img { width:100%; border-radius:4px; border:2px solid var(--accent); }
-    #save-btn, #share-btn { margin:12px 8px; padding:8px 16px; background:var(--accent-dark); border:none; color:var(--bg-dark); border-radius:4px; cursor:pointer; }
-    #gallery img { width:150px; margin:8px; border:1px solid var(--accent); border-radius:4px; }
+    /* --- Hero & Prompt --- */
+    header {
+      padding: 30px 20px 20px;
+      text-align: center;
+      position: relative; z-index:1;
+    }
+    header h1 {
+      margin:0; font-size:3.5rem; color: var(--accent);
+      animation: glow 2s infinite alternate;
+    }
+    header p {
+      margin:8px 0 16px; font-size:1.1rem; color: var(--text-light);
+    }
+    @keyframes glow {
+      0%,100% { text-shadow:0 0 8px var(--accent),0 0 16px var(--accent-dark); }
+      50% { text-shadow:0 0 16px var(--accent),0 0 24px var(--accent-dark); }
+    }
+    .prompt-ui {
+      display: inline-flex; align-items:center;
+      gap:8px;
+    }
+    .prompt-ui input {
+      padding:8px; font-size:1rem;
+      border-radius:4px; border:1px solid var(--accent-dark);
+      width: 200px;
+    }
+    .prompt-ui button {
+      padding:8px 16px; font-size:1rem;
+      border-radius:4px; border:none;
+      background:var(--accent); color:var(--bg-dark);
+      cursor:pointer;
+    }
 
-    /* Testimonials & Form */
-    .testimonials, .contact-form { background:rgba(17,24,38,0.9); padding:40px 20px; border-radius:8px; margin:40px 0; border-left:4px solid var(--accent); }
-    .contact-form input, .contact-form textarea { width:80%; max-width:300px; padding:8px; margin:8px 0; border-radius:4px; border:1px solid var(--accent-dark); }
-    .contact-form button { padding:8px 16px; background:var(--accent); border:none; color:var(--bg-dark); border-radius:4px; cursor:pointer; }
+    /* --- Loading Bar --- */
+    #loading {
+      margin-top:12px; display:flex; flex-direction:column; align-items:center;
+    }
+    #loading progress {
+      width:150px;
+    }
 
-    /* Footer */
-    footer { text-align:center; padding:20px; background:rgba(17,24,38,0.9); }
+    /* --- Main & Gallery --- */
+    .container {
+      width:90%; max-width:900px;
+      margin:-20px auto 60px; position:relative; z-index:1;
+    }
+    .image-section {
+      background:var(--card-bg); backdrop-filter:blur(8px);
+      padding:20px; border-radius:8px;
+      border:1px solid var(--accent-dark);
+      text-align:center;
+      animation:float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform:translateY(0); }
+      50% { transform:translateY(-8px); }
+    }
+    #main-image {
+      width:100%; max-width:800px; border-radius:6px;
+      border:2px solid var(--accent);
+    }
+    #save-btn, #share-btn {
+      margin:12px 6px; padding:8px 16px;
+      background:var(--accent-dark); border:none;
+      border-radius:4px; color:var(--bg-dark);
+      cursor:pointer;
+    }
+    #gallery {
+      margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;
+    }
+    #gallery img {
+      width:120px; border:1px solid var(--accent);
+      border-radius:4px;
+    }
 
-    /* Particle Canvas */
-    #bg-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+    /* --- Testimonials & Contact --- */
+    .testimonials, .contact-form {
+      background: rgba(17,24,38,0.9);
+      padding:30px 20px; border-radius:8px;
+      margin:40px 0; border-left:4px solid var(--accent);
+    }
+    .contact-form input, .contact-form textarea {
+      width:80%; max-width:300px; padding:8px;
+      margin:8px 0; border-radius:4px;
+      border:1px solid var(--accent-dark);
+    }
+    .contact-form button {
+      padding:8px 16px; border:none;
+      border-radius:4px; background:var(--accent);
+      color:var(--bg-dark); cursor:pointer;
+    }
 
-    /* Keyframes & responsive omitted for brevity */
+    /* --- Footer --- */
+    footer {
+      text-align:center; padding:20px;
+      background: rgba(17,24,38,0.9);
+    }
+    footer a {
+      margin: 0 8px; color:inherit; text-decoration:none;
+    }
+    footer a:hover { color:var(--accent); }
+
+    /* --- Responsive --- */
+    @media(max-width:600px){
+      header h1 { font-size:2.5rem; }
+      nav a, nav button { margin:0 6px; font-size:0.9rem; }
+      .prompt-ui input { width:140px; }
+    }
   </style>
 </head>
 <body data-theme="dark">
+
+  <!-- Particle network canvas -->
   <canvas id="bg-canvas"></canvas>
+
+  <!-- Navigation -->
   <nav aria-label="Main navigation">
     <a href="#">Home</a>
     <a href="#">About</a>
@@ -76,79 +183,194 @@
     <a href="#">Services</a>
     <button id="theme-toggle" aria-label="Toggle theme">🌓</button>
   </nav>
-  <header>
+
+  <!-- Hero & Prompt -->
+  <header role="banner">
     <h1>Image Generator</h1>
     <p>AI‑powered image creation in seconds—no design skills needed.</p>
-    <div class="prompt-ui" role="form">
-      <input id="prompt-input" placeholder="Enter prompt..." aria-label="AI prompt" />
+    <div class="prompt-ui" role="form" aria-label="Image prompt">
+      <input id="prompt-input" type="text" placeholder="Enter prompt…" />
       <button id="generate-btn">Generate</button>
     </div>
     <div id="loading" hidden aria-live="polite">
-      <p>Generating...</p>
       <progress id="load-bar" max="100" value="0"></progress>
     </div>
   </header>
 
+  <!-- Main & Gallery -->
   <div class="container">
     <div class="image-section" aria-live="polite">
-      <img id="main-image" alt="Generated preview" />
-      <p>Upload your prompt, choose a style, and get high‑quality images.</p>
+      <img id="main-image" alt="Generated AI preview">
     </div>
     <button id="save-btn">Save to Gallery</button>
     <button id="share-btn">Share</button>
-    <div id="gallery" aria-label="Gallery"></div>
+    <div id="gallery" aria-label="Saved images"></div>
 
     <div class="testimonials">
       <h3>What Our Users Say</h3>
       <p>“Mind‑blowing tool!” – Alex</p>
-      <p>“Incredibly realistic.” – Maria</p>
+      <p>“Incredibly realistic images.” – Maria</p>
     </div>
 
     <div class="contact-form">
-      <h3>Get in Touch</n      <form>
-        <input placeholder="Your Name" required />
-        <input type="email" placeholder="Your Email" required />
+      <h3>Get in Touch</h3>
+      <form>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
         <textarea placeholder="Your Message" required></textarea>
         <button type="submit">Send</button>
       </form>
     </div>
   </div>
 
-  <footer>
+  <!-- Footer -->
+  <footer role="contentinfo">
     &copy; 2025 Image Generator | <a href="#">Privacy</a> | <a href="#">Terms</a>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-..." crossorigin="anonymous"></script>
   <script>
     // Theme toggle
-    const themeBtn = document.getElementById('theme-toggle');
-    themeBtn.onclick = () => {
-      const t = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      document.body.setAttribute('data-theme', t);
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.onclick = () => {
+      const body = document.body;
+      const next = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      body.setAttribute('data-theme', next);
     };
-    // Generate simulation
-    const genBtn = document.getElementById('generate-btn'), loadDiv = document.getElementById('loading'), loadBar = document.getElementById('load-bar'), mainImg = document.getElementById('main-image');
+
+    // Fake generation workflow
+    const genBtn = document.getElementById('generate-btn');
+    const loadDiv = document.getElementById('loading');
+    const loadBar = document.getElementById('load-bar');
+    const mainImg = document.getElementById('main-image');
     genBtn.onclick = () => {
-      loadDiv.hidden = false; let p=0;
-      const iv = setInterval(()=>{ p+=10; loadBar.value=p; if(p>=100){ clearInterval(iv); loadDiv.hidden=true; mainImg.src='https://source.unsplash.com/800x400/?ai,abstract'; }},300);
+      loadBar.value = 0;
+      loadDiv.hidden = false;
+      let progress = 0;
+      const iv = setInterval(() => {
+        progress += 10;
+        loadBar.value = progress;
+        if (progress >= 100) {
+          clearInterval(iv);
+          loadDiv.hidden = true;
+          // swap in a “generated” image
+          mainImg.src = 'https://source.unsplash.com/800x400/?cyberpunk,ai';
+        }
+      }, 200);
     };
-    // Gallery
-    document.getElementById('save-btn').onclick = ()=>{
-      const img = mainImg.cloneNode(); document.getElementById('gallery').appendChild(img);
+
+    // Gallery save
+    document.getElementById('save-btn').onclick = () => {
+      if (mainImg.src) {
+        const thumb = mainImg.cloneNode();
+        thumb.style.width = '120px';
+        document.getElementById('gallery').appendChild(thumb);
+      }
     };
+
+    // Share stub
+    document.getElementById('share-btn').onclick = () => {
+      alert('Share this link with a friend to Rickroll them!');
+    };
+
     // Konami code
-    const code=[38,38,40,40,37,39,37,39,66,65]; let pos=0;
-    window.onkeydown = e=>{ if(e.keyCode===code[pos]){ pos++; if(pos===code.length) location='https://youtu.be/dQw4w9WgXcQ'; } else pos=0; };
+    const konami = [38,38,40,40,37,39,37,39,66,65];
+    let kpos = 0;
+    window.addEventListener('keydown', e => {
+      if (e.keyCode === konami[kpos]) {
+        kpos++;
+        if (kpos === konami.length) {
+          window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        }
+      } else {
+        kpos = 0;
+      }
+    });
+
     // Analytics stub
-    document.addEventListener('click',e=>{ if(['generate-btn','save-btn','share-btn'].includes(e.target.id)) fetch('/analytics',{method:'POST',body:JSON.stringify({id:e.target.id,time:Date.now()})}); });
+    document.addEventListener('click', e => {
+      if (['generate-btn','save-btn','share-btn'].includes(e.target.id)) {
+        fetch('/analytics', {
+          method: 'POST',
+          body: JSON.stringify({ id: e.target.id, timestamp: Date.now() })
+        }).catch(()=>{/* ignore */});
+      }
+    });
+
     // Particle network
-    const canvas=document.getElementById('bg-canvas'),ctx=canvas.getContext('2d'); let particles=[],hue=200;
-    function resize(){canvas.width=innerWidth;canvas.height=innerHeight;} window.onresize=resize; resize();
-    class Particle{constructor(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.vx=(Math.random()-0.5)*0.5;this.vy=(Math.random()-0.5)*0.5;this.size=Math.random()*2+1;}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>canvas.width) this.vx*=-1;if(this.y<0||this.y>canvas.height) this.vy*=-1;}draw(){ctx.fillStyle=`hsla(${hue},80%,60%,0.7)`;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();}};
-    function init(n=120){particles=[];for(let i=0;i<n;i++)particles.push(new Particle());}
-    function connect(){for(let a=0;a<particles.length;a++)for(let b=a+1;b<particles.length;b++){let dx=particles[a].x-particles[b].x,dy=particles[a].y-particles[b].y,d=Math.hypot(dx,dy);if(d<100){ctx.strokeStyle=`hsla(${hue},80%,60%,${1-d/100})`;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(particles[a].x,particles[a].y);ctx.lineTo(particles[b].x,particles[b].y);ctx.stroke();}}}
-    function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw();});connect();hue=(hue+0.1)%360;requestAnimationFrame(animate);}init();init(120);animate();
-    canvas.onmousemove=e=>{const mx=e.clientX,my=e.clientY;particles.forEach(p=>{let dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);if(d<100){p.vx+=(dx/d)*0.05;p.vy+=(dy/d)*0.05;}});};
+    const canvas = document.getElementById('bg-canvas'),
+          ctx = canvas.getContext('2d');
+    let particles = [], hue = 180;
+    function resize() {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.7;
+        this.vy = (Math.random() - 0.5) * 0.7;
+        this.size = Math.random() * 2 + 1;
+      }
+      update() {
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+      }
+      draw() {
+        ctx.fillStyle = `hsla(${hue},80%,60%,0.7)`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initParticles(count=120) {
+      particles = [];
+      for (let i=0; i<count; i++) particles.push(new Particle());
+    }
+    function connectParticles() {
+      for (let a=0; a<particles.length; a++) {
+        for (let b=a+1; b<particles.length; b++) {
+          const dx = particles[a].x - particles[b].x;
+          const dy = particles[a].y - particles[b].y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 100) {
+            ctx.strokeStyle = `hsla(${hue},80%,60%,${1 - dist/100})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    function animateParticles() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      connectParticles();
+      hue = (hue + 0.1) % 360;
+      requestAnimationFrame(animateParticles);
+    }
+    initParticles();
+    animateParticles();
+
+    // Mouse repel
+    canvas.addEventListener('mousemove', e => {
+      const mx = e.clientX, my = e.clientY;
+      particles.forEach(p => {
+        const dx = p.x - mx, dy = p.y - my;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 100) {
+          p.vx += (dx/dist) * 0.05;
+          p.vy += (dy/dist) * 0.05;
+        }
+      });
+    });
   </script>
 </body>
 </html>
