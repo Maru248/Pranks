@@ -1,142 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Generator - Create Stunning Images Online</title>
-    <meta name="description" content="Create stunning images with the latest AI-powered tools. Easy and fast!">
-    <meta name="author" content="Image Generator Inc.">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 3em;
-            font-weight: bold;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 50px 0;
-        }
-        .login-signup-buttons {
-            text-align: center;
-            margin-top: 30px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 10px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .image-section {
-            text-align: center;
-            margin-top: 50px;
-        }
-        .image-section img {
-            width: 50%;
-            border-radius: 8px;
-        }
-        .testimonials {
-            background-color: #f9f9f9;
-            padding: 20px;
-            text-align: center;
-        }
-        .contact-form {
-            padding: 20px;
-            text-align: center;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        nav {
-            background-color: #333;
-            padding: 10px;
-            color: white;
-            text-align: center;
-        }
-        nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Generator – AI‑Powered Image Creation</title>
+  <meta name="description" content="Create next‑gen images in seconds with our AI tool."/>
+  <meta name="author" content="Image Generator Inc."/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg-dark: #0d0f19;
+      --bg-darker: #090a12;
+      --accent: #00e5ff;
+      --accent-dark: #00b8cc;
+      --text-light: #f5f7fa;
+      --text-medium: #aab0c2;
+      --btn-bg: #00e5ff;
+      --btn-hover: #00b8cc;
+      --section-bg: #111326;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    nav {
+      background: var(--bg-darker);
+      padding: 15px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav a {
+      color: var(--text-light);
+      margin: 0 20px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    nav a:hover {
+      color: var(--accent);
+    }
+    header {
+      background: linear-gradient(135deg, #0c162f, #111326);
+      padding: 80px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 3rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2rem;
+      color: var(--text-medium);
+    }
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 60px auto;
+    }
+    .image-section {
+      background: var(--section-bg);
+      padding: 40px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .image-section img {
+      max-width: 100%;
+      border-radius: 6px;
+      border: 2px solid var(--accent);
+    }
+    .image-section p {
+      color: var(--text-medium);
+      margin-top: 20px;
+    }
+    .login-signup-buttons {
+      margin: 40px 0;
+      text-align: center;
+    }
+    button {
+      background: var(--btn-bg);
+      color: var(--bg-darker);
+      border: none;
+      padding: 15px 30px;
+      margin: 0 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    button:hover {
+      background: var(--btn-hover);
+      transform: translateY(-2px);
+    }
+    .testimonials {
+      background: var(--section-bg);
+      padding: 60px 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .testimonials h3 {
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .testimonials p {
+      color: var(--text-medium);
+      margin: 15px 0;
+    }
+    .contact-form {
+      background: var(--section-bg);
+      padding: 60px 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .contact-form h3 {
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 80%;
+      max-width: 400px;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid var(--accent-dark);
+      border-radius: 4px;
+      background: var(--bg-darker);
+      color: var(--text-light);
+    }
+    .contact-form textarea { height: 120px; resize: none; }
+    footer {
+      background: var(--bg-darker);
+      color: var(--text-medium);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: var(--text-light);
+      text-decoration: none;
+      margin: 0 8px;
+      transition: color .2s;
+    }
+    footer a:hover { color: var(--accent); }
+    @media (max-width: 600px) {
+      header h1 { font-size: 2.2rem; }
+      nav a { margin: 0 10px; font-size: 0.9rem; }
+      button { display: block; width: 80%; margin: 10px auto; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-        <a href="#">Services</a>
-    </nav>
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+    <a href="#">Services</a>
+  </nav>
 
-    <!-- Header Section -->
-    <header>
-        <h1>Image Generator</h1>
-        <p>Create stunning images with just a few clicks!</p>
-    </header>
+  <!-- Hero Section -->
+  <header>
+    <h1>Image Generator</h1>
+    <p>AI‑powered image creation in seconds—no design skills needed.</p>
+  </header>
 
-    <!-- Main Content Section -->
-    <div class="container">
-        <div class="image-section">
-            <img src="https://via.placeholder.com/800x400" alt="Sample Image">
-            <p>Click below to start generating images with our advanced tool!</p>
-        </div>
+  <!-- Main Container -->
+  <div class="container">
 
-        <div class="login-signup-buttons">
-            <button onclick="window.location.href='#login';">Login</button>
-            <!-- Updated Sign Up Button to Redirect to Rickroll -->
-            <button onclick="window.location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ';">Sign Up</button>
-        </div>
+    <!-- Image Preview -->
+    <div class="image-section">
+      <img src="https://via.placeholder.com/800x400/111326/00e5ff?text=Your+Image+Here" alt="Generated Image Preview">
+      <p>Upload your prompt, choose a style, and get high‑quality images instantly.</p>
     </div>
 
-    <!-- Testimonials Section -->
+    <!-- Call to Action Buttons -->
+    <div class="login-signup-buttons">
+      <button onclick="window.location.href='#login';">Login</button>
+      <button onclick="window.location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ';">Sign Up</button>
+    </div>
+
+    <!-- Testimonials -->
     <div class="testimonials">
-        <h3>What Our Users Say</h3>
-        <p>"This tool is amazing! I created the best profile picture in seconds. Highly recommend!" - Jane Doe</p>
-        <p>"I’ve tried other tools, but this one is by far the easiest and most powerful." - John Smith</p>
+      <h3>What Our Users Say</h3>
+      <p>“This AI tool saved me hours of design work. Absolutely mind‑blowing!” – Alex P.</p>
+      <p>“I can't believe how realistic these images look. Best free tool out there.” – Maria R.</p>
     </div>
 
-    <!-- Contact Form Section (Fake) -->
+    <!-- Contact Form -->
     <div class="contact-form">
-        <h3>Contact Us</h3>
-        <form action="https://www.example.com" method="post">
-            <input type="text" name="name" placeholder="Your Name" required><br><br>
-            <input type="email" name="email" placeholder="Your Email" required><br><br>
-            <textarea name="message" placeholder="Your Message" required></textarea><br><br>
-            <button type="submit">Send Message</button>
-        </form>
+      <h3>Get in Touch</h3>
+      <form action="#" method="post">
+        <input type="text" name="name" placeholder="Your Name" required><br>
+        <input type="email" name="email" placeholder="Your Email" required><br>
+        <textarea name="message" placeholder="Your Message" required></textarea><br>
+        <button type="submit">Send Message</button>
+      </form>
     </div>
 
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2025 Image Generator, Inc. | <a href="https://www.example.com/privacy" style="color: white;">Privacy Policy</a> | <a href="https://www.example.com/terms" style="color: white;">Terms of Service</a></p>
-    </footer>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Image Generator, Inc. |
+    <a href="#">Privacy Policy</a> |
+    <a href="#">Terms of Service</a>
+  </footer>
+
+</body>
+</html>
 
 </body>
 </html>
