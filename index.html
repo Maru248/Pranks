@@ -9,13 +9,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
   <style>
-    /* === Reset & Scroll Fix === */
-    html, body {
-      margin: 0; padding: 0;
-      overflow-x: hidden; overflow-y: auto;
-      height: auto;
-    }
-    * { box-sizing: border-box; }
+    /* Reset & Scroll */
+    html, body { margin:0; padding:0; overflow-x:hidden; overflow-y:auto; }
+    * { box-sizing:border-box; }
 
     :root {
       --bg-dark: #0a0c14;
@@ -26,170 +22,160 @@
       --card-bg: rgba(0,229,255,0.1);
     }
 
-    /* === Body & Background Layers === */
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family:'Roboto', sans-serif;
       color: var(--text-light);
       background: var(--bg-dark);
       position: relative;
     }
+    /* Animated Gradient */
     body::before {
-      content: '';
-      position: fixed; top: 0; left: 0;
+      content:''; position:fixed; top:0; left:0;
       width:100%; height:100%;
-      background: linear-gradient(60deg, #0f1a2f, #1b273f, #001f3f, #0a0c14);
-      background-size: 400% 400%;
-      animation: gradientBG 30s ease infinite;
-      z-index: -3;
+      background: linear-gradient(60deg,#0f1a2f,#1b273f,#001f3f,#0a0c14);
+      background-size:400% 400%; animation:gradientBG 30s ease infinite;
+      z-index:-3;
     }
     @keyframes gradientBG {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
     }
 
-    /* === Particle Canvas === */
+    /* Particle Canvas */
     #bg-canvas {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
+      position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;
     }
 
-    /* === Navigation === */
+    /* Navigation */
     nav {
       background: rgba(17,24,38,0.8);
-      padding: 20px;
-      text-align: center;
-      position: sticky; top: 0; z-index: 2;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+      padding:20px; text-align:center; position:sticky; top:0; z-index:2;
+      box-shadow:0 2px 8px rgba(0,0,0,0.7);
     }
     nav a {
-      display: inline-block; margin: 0 20px;
-      color: var(--text-light); text-decoration: none;
-      font-weight: 500; transition: color .2s;
+      display:inline-block; margin:0 20px;
+      color:var(--text-light); text-decoration:none;
+      font-weight:500; transition:color .2s;
     }
     nav a:hover { color: var(--accent); }
 
-    /* === Hero Section (Raised Up) === */
+    /* Hero (more compact) */
     header {
-      background: transparent;
-      padding: 60px 20px 40px; /* reduced top/bottom padding */
-      text-align: center;
-      position: relative; z-index: 1;
+      background:transparent;
+      padding:30px 20px 20px;
+      text-align:center; position:relative; z-index:1;
     }
     header h1 {
-      font-size: 3.5rem; color: var(--accent);
-      animation: glow 2s infinite alternate;
+      font-size:3.5rem; color:var(--accent);
+      animation:glow 2s infinite alternate;
     }
     @keyframes glow {
-      0%,100% { text-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent-dark); }
-      50%     { text-shadow: 0 0 16px var(--accent), 0 0 24px var(--accent-dark); }
+      0%,100% { text-shadow:0 0 8px var(--accent),0 0 16px var(--accent-dark); }
+      50%     { text-shadow:0 0 16px var(--accent),0 0 24px var(--accent-dark); }
     }
     header p {
-      margin-top: 8px; color: var(--text-medium); font-size: 1.1rem;
+      margin-top:8px; color:var(--text-medium); font-size:1.1rem;
     }
 
-    /* === Main Container (Lifted Up) === */
+    /* Main Container (pulled up) */
     .container {
-      width: 90%; max-width: 1000px;
-      margin: 0 auto 60px; /* remove top margin so content moves up */
-      position: relative; z-index: 1;
+      width:90%; max-width:1000px;
+      margin:-20px auto 60px;
+      position:relative; z-index:1;
     }
 
-    /* === Image Preview Card === */
+    /* Image Card */
     .image-section {
-      background: var(--card-bg); backdrop-filter: blur(8px);
-      padding: 30px; border-radius: 12px;
-      border: 1px solid var(--accent-dark);
-      text-align: center;
-      animation: float 6s ease-in-out infinite;
+      background:var(--card-bg); backdrop-filter:blur(8px);
+      padding:30px; border-radius:12px;
+      border:1px solid var(--accent-dark);
+      text-align:center;
+      animation:float 6s ease-in-out infinite;
     }
     @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50%     { transform: translateY(-8px); }
+      0%,100% { transform:translateY(0); }
+      50%     { transform:translateY(-8px); }
     }
     .image-section img {
-      max-width: 100%; border-radius: 6px;
-      border: 3px solid var(--accent);
-      box-shadow: 0 4px 20px rgba(0,229,255,0.5);
-      transition: transform .3s, box-shadow .3s;
+      max-width:100%; border-radius:6px;
+      border:3px solid var(--accent);
+      box-shadow:0 4px 20px rgba(0,229,255,0.5);
+      transition:transform .3s,box-shadow .3s;
     }
     .image-section img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 30px rgba(0,229,255,0.7);
+      transform:scale(1.05);
+      box-shadow:0 6px 30px rgba(0,229,255,0.7);
     }
     .image-section p {
-      margin-top: 20px; color: var(--text-medium);
+      margin-top:20px; color:var(--text-medium);
     }
 
-    /* === Call to Action Buttons === */
+    /* Buttons */
     .login-signup-buttons {
-      text-align: center; margin: 30px 0; z-index: 1;
+      text-align:center; margin:20px 0; z-index:1;
     }
     button {
-      background: var(--accent); color: var(--bg-dark);
-      border: none; padding: 14px 28px; margin: 0 8px;
-      font-size: 1rem; font-weight: 700; border-radius: 6px;
-      cursor: pointer; box-shadow: 0 4px 15px rgba(0,229,255,0.4);
-      transition: background .2s, transform .1s, box-shadow .2s;
+      background:var(--accent); color:var(--bg-dark);
+      border:none; padding:14px 28px; margin:0 8px;
+      font-size:1rem; font-weight:700; border-radius:6px;
+      cursor:pointer; box-shadow:0 4px 15px rgba(0,229,255,0.4);
+      transition:background .2s,transform .1s,box-shadow .2s;
     }
     button:hover {
-      background: var(--accent-dark); transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(0,184,204,0.6);
+      background:var(--accent-dark); transform:translateY(-2px);
+      box-shadow:0 6px 25px rgba(0,184,204,0.6);
     }
 
-    /* === Testimonials & Contact Form === */
+    /* Testimonials & Contact */
     .testimonials, .contact-form {
-      background: #111826; padding: 50px 20px;
-      border-radius: 12px; margin-bottom: 60px;
-      border-left: 4px solid var(--accent);
-      position: relative; z-index: 1;
+      background:#111826; padding:50px 20px;
+      border-radius:12px; margin-bottom:60px;
+      border-left:4px solid var(--accent);
+      position:relative; z-index:1;
     }
     .testimonials h3, .contact-form h3 {
-      color: var(--accent); margin-bottom: 20px;
-      text-shadow: 0 0 6px var(--accent);
+      color:var(--accent); margin-bottom:20px;
+      text-shadow:0 0 6px var(--accent);
     }
     .testimonials p {
-      color: var(--text-medium); margin: 12px 0; font-style: italic;
+      color:var(--text-medium); margin:12px 0; font-style:italic;
     }
     .contact-form input, .contact-form textarea {
-      width: 80%; max-width: 400px; margin: 10px 0;
-      padding: 12px; border-radius: 6px;
-      border: 1px solid var(--accent-dark);
-      background: #0e1520; color: var(--text-light);
-      transition: border .2s, box-shadow .2s;
+      width:80%; max-width:400px; margin:10px 0;
+      padding:12px; border-radius:6px;
+      border:1px solid var(--accent-dark);
+      background:#0e1520; color:var(--text-light);
+      transition:border .2s,box-shadow .2s;
     }
     .contact-form input:focus, .contact-form textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      outline: none;
+      border-color:var(--accent); box-shadow:0 0 8px var(--accent);
+      outline:none;
     }
-    .contact-form textarea { height: 120px; resize: none; }
+    .contact-form textarea { height:120px; resize:none; }
 
-    /* === Footer === */
+    /* Footer */
     footer {
-      background: #111826; color: var(--text-medium);
-      text-align: center; padding: 20px 0; font-size: 0.9rem;
-      border-top: 1px solid var(--accent-dark);
-      position: relative; z-index: 1;
+      background:#111826; color:var(--text-medium);
+      text-align:center; padding:20px 0; font-size:0.9rem;
+      border-top:1px solid var(--accent-dark);
+      position:relative; z-index:1;
     }
     footer a {
-      color: var(--text-light); margin: 0 8px;
-      text-decoration: none; transition: color .2s;
+      color:var(--text-light); margin:0 8px;
+      text-decoration:none; transition:color .2s;
     }
-    footer a:hover { color: var(--accent); }
+    footer a:hover { color:var(--accent); }
 
-    /* === Responsive === */
-    @media (max-width: 600px) {
-      header h1 { font-size: 2.5rem; }
-      nav a { margin: 0 8px; font-size: 0.9rem; }
-      button { display: block; width: 80%; margin: 12px auto; }
+    /* Responsive */
+    @media (max-width:600px){
+      header h1 { font-size:2.5rem; }
+      nav a { margin:0 8px; font-size:0.9rem; }
+      button { display:block; width:80%; margin:12px auto; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Particle network canvas -->
+  <!-- Particle Canvas -->
   <canvas id="bg-canvas"></canvas>
 
   <!-- Navigation -->
@@ -200,7 +186,7 @@
     <a href="#">Services</a>
   </nav>
 
-  <!-- Hero (moved up) -->
+  <!-- Hero Section (even higher) -->
   <header>
     <h1>Image Generator</h1>
     <p>AI‑powered image creation in seconds—no design skills needed.</p>
@@ -212,7 +198,7 @@
       <img
         src="https://img.freepik.com/premium-photo/modern-future-hd-8k-wall-paper-stock-photographic-image_890746-94541.jpg"
         alt="AI Generated Futuristic Cityscape"
-        onerror="this.onerror=null;this.src='https://source.unsplash.com/800x400/?ai,abstract,cyberpunk';"
+        onerror="this.onerror=null; this.src='https://source.unsplash.com/800x400/?ai,abstract,cyberpunk';"
       />
       <p>Upload your prompt, choose a style, and get high‑quality images instantly.</p>
     </div>
@@ -303,7 +289,7 @@
 
     initParticles(); animate();
 
-    canvas.addEventListener('mousemove',e=>{
+    canvas.addEventListener('mousemove', e => {
       const mx=e.clientX,my=e.clientY;
       particles.forEach(p=>{
         let dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);
