@@ -18,11 +18,14 @@
       --card-bg: rgba(0,229,255,0.1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* === Body & Scroll Fix === */
     body {
       font-family: 'Roboto', sans-serif;
       color: var(--text-light);
       background: var(--bg-dark);
-      overflow: hidden;
+      overflow-x: hidden;    /* lock horizontal scroll */
+      overflow-y: auto;      /* allow vertical scroll */
       position: relative;
     }
 
@@ -294,4 +297,3 @@
   </footer>
 </body>
 </html>
-
