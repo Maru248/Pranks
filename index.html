@@ -217,10 +217,26 @@
     // Prompt → Signup Flow
     document.getElementById('generate-btn').addEventListener('click', ()=>{const btn=document.getElementById('generate-btn');btn.textContent='Generating…';setTimeout(()=>{btn.textContent='Generate Image';document.getElementById('signup-modal').classList.remove('hidden');},2000);
     });
-    // Signup Steps & Rickroll
-    const form=document.getElementById('signup-form'), steps=form.querySelectorAll('.form-step');
-    form.addEventListener('click',e=>{if(e.target.classList.contains('next-btn')){steps[0].classList.remove('active');steps[1].classList.add('active');}else if(e.target.classList.contains('prev-btn')){steps[1].classList.remove('active');steps[0].classList.add('active');}});
-    form.addEventListener('submit',e=>{e.preventDefault();const modalContent=document.querySelector('#signup-modal .modal-content');modalContent.innerHTML='<div class="spinner"></div><p>Signing you up…</p>';setTimeout(()=>window.location.href='https://youtu.be/dQw4w9WgXcQ',2500);
+        // Signup Steps & Rickroll
+    const form = document.getElementById('signup-form'), steps = form.querySelectorAll('.form-step');
+    form.addEventListener('click', e => {
+      if (e.target.classList.contains('next-btn')) {
+        steps[0].classList.remove('active');
+        steps[1].classList.add('active');
+      } else if (e.target.classList.contains('prev-btn')) {
+        steps[1].classList.remove('active');
+        steps[0].classList.add('active');
+      }
+    });
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const modalContent = document.querySelector('#signup-modal .modal-content');
+      modalContent.innerHTML = '<div class="spinner"></div><p>Signing you up…</p>';
+      setTimeout(() => {
+        // Open Rickroll in a new tab, then reset the page so the spinner state doesn't persist
+        window.open('https://youtu.be/dQw4w9WgXcQ', '_blank');
+        window.location.reload();
+      }, 2500);
     });
   </script>
 </body>
