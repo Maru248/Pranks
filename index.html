@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Image Generator – AI­Powered Image Creation</title>
-  <meta name="description" content="Create next­gen images in seconds with our AI tool."/>
+  <title>Image Generator – AI‑Powered Image Creation</title>
+  <meta name="description" content="Create next‑gen images in seconds with our AI tool."/>
   <meta name="author" content="Image Generator Inc."/>
 
   <!-- Favicon -->
@@ -47,26 +47,20 @@
       background-size:400% 400%; animation:gradientBG 30s ease infinite;
       z-index:-3;
     }
-    @keyframes gradientBG {
-      0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
-    }
+    @keyframes gradientBG { 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
 
     /* Particle Canvas */
     #bg-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
 
     /* Navigation */
-    nav {
-      background: rgba(17,24,38,0.8);
-      padding:20px; text-align:center; position:sticky; top:0; z-index:2;
-      box-shadow:0 2px 8px rgba(0,0,0,0.7);
-    }
+    nav { background: rgba(17,24,38,0.8); padding:20px; text-align:center; position:sticky; top:0; z-index:2; box-shadow:0 2px 8px rgba(0,0,0,0.7); }
     nav a { display:inline-block; margin:0 20px; color:var(--text-light); text-decoration:none; font-weight:500; transition:color .2s; }
     nav a:hover { color: var(--accent); }
 
     /* Hero */
     header { background:transparent; padding:30px 20px 20px; text-align:center; position:relative; z-index:1; }
     header h1 { font-size:3.5rem; color:var(--accent); animation:glow 2s infinite alternate; }
-    @keyframes glow { 0%,100% { text-shadow:0 0 8px var(--accent),0 0 16px var(--accent-dark); } 50% { text-shadow:0 0 16px var(--accent),0 0 24px var(--accent-dark); } }
+    @keyframes glow { 0%,100% { text-shadow:0 0 8px var(--accent),0 0 16px var(--accent-dark);} 50% { text-shadow:0 0 16px var(--accent),0 0 24px var(--accent-dark);} }
     header p { margin-top:8px; color:var(--text-medium); font-size:1.1rem; }
 
     /* Container */
@@ -74,7 +68,7 @@
 
     /* Image Card */
     .image-section { background:var(--card-bg); backdrop-filter:blur(8px); padding:30px; border-radius:12px; border:1px solid var(--accent-dark); text-align:center; animation:float 6s ease-in-out infinite; }
-    @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
+    @keyframes float { 0%,100% { transform:translateY(0);} 50% { transform:translateY(-8px);} }
     .image-section img { max-width:100%; border-radius:6px; border:3px solid var(--accent); box-shadow:0 4px 20px rgba(0,229,255,0.5); transition:transform .3s,box-shadow .3s; }
     .image-section img:hover { transform:scale(1.05); box-shadow:0 6px 30px rgba(0,229,255,0.7); }
     .image-section p { margin-top:20px; color:var(--text-medium); }
@@ -86,7 +80,7 @@
     .prompt-section button:hover { background:var(--accent-dark); transform:translateY(-1px); }
 
     /* Spinner */
-    .spinner { border: 4px solid rgba(255,255,255,0.2); border-top:4px solid var(--accent); border-radius:50%; width:40px; height:40px; animation:spin 1s linear infinite; margin:20px auto; }
+    .spinner { border:4px solid rgba(255,255,255,0.2); border-top:4px solid var(--accent); border-radius:50%; width:40px; height:40px; animation:spin 1s linear infinite; margin:20px auto; }
     @keyframes spin { to { transform:rotate(360deg); } }
 
     /* Modal Signup */
@@ -97,7 +91,7 @@
     .form-step.active { display:block; }
     .modal-content label { display:block; margin:12px 0 4px; }
     .modal-content input { width:100%; padding:10px; border-radius:4px; border:1px solid var(--accent-dark); background:#0e1520; color:var(--text-light); }
-    .modal-content button { margin-top:16px; width:auto; }
+    .modal-content button { margin-top:16px; }
 
     /* Trust & Cookie */
     .trust-badges { text-align:center; margin:20px 0; }
@@ -198,65 +192,9 @@
           <h2>Create Your Account</h2>
           <label for="signup-email">Work Email</label>
           <input type="email" id="signup-email" required placeholder="you@company.com"/>
-          <button type="button" class="next-btn">Next &rarr;</button>
+          <button type="button" class="next-btn">Next →</button>
         </div>
         <div class="form-step" data-step="2">
           <label for="signup-name">Full Name</label>
-          <input type="text" id="signup-name" required placeholder="Alex Johnson"/>
-          <label for="signup-password">Password</label>
-          <input type="password" id="signup-password" required minlength="8"/>
-          <button type="button" class="prev-btn">&larr; Back</button>
-          <button type="submit" class="submit-btn">Sign Up</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script>
-    // Cookie Consent
-    document.getElementById('accept-cookies').addEventListener('click', () => {
-      document.getElementById('cookie-banner').remove();
-    });
-
-    // Particle Network
-    const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
-    let particles = [], hue = 200;
-    function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
-    window.addEventListener('resize', () => clearTimeout(window._resizeTimeout) || (window._resizeTimeout = setTimeout(resize, 200)));
-    resize();
-    class Particle { constructor(){ /* ... */ }} // truncated for brevity
-    function initParticles(n=120){ /* ... */ }
-    function connect(){ /* ... */ }
-    function animate(){ /* ... */ requestAnimationFrame(animate); }
-    initParticles(); animate();
-
-    // Prompt -> Signup Flow
-    document.getElementById('generate-btn').addEventListener('click', ()=>{
-      const btn = document.getElementById('generate-btn');
-      btn.textContent = 'Generating…';
-      setTimeout(()=>{
-        btn.textContent = 'Generate Image';
-        document.getElementById('signup-modal').classList.remove('hidden');
-      }, 2000);
-    });
-
-    // Signup Form Steps & Rickroll
-    const form = document.getElementById('signup-form');
-    const steps = form.querySelectorAll('.form-step');
-    form.addEventListener('click', e => {
-      if(e.target.classList.contains('next-btn')){
-        steps[0].classList.remove('active'); steps[1].classList.add('active');
-      } else if(e.target.classList.contains('prev-btn')){
-        steps[1].classList.remove('active'); steps[0].classList.add('active');
-      }
-    });
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const modalContent = document.querySelector('#signup-modal .modal-content');
-      modalContent.innerHTML = '<div class="spinner"></div><p>Signing you up…</p>';
-      setTimeout(()=> window.location.href='https://youtu.be/dQw4w9WgXcQ', 2500);
-    });
-  </script>
-</body>
-</html>
+          <input type="text" id="signup-name" required placeholder="Alex Johnson"/>"`
+}]}
