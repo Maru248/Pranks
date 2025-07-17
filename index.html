@@ -8,7 +8,14 @@
   <meta name="author" content="Image Generator Inc."/>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
   <style>
-    /* === Variables & Reset === */
+    /* --- reset and scroll fix --- */
+    html, body {
+      margin: 0; padding: 0;
+      overflow-x: hidden;    /* no horizontal scroll */
+      overflow-y: auto;      /* allow vertical */
+      height: auto;
+    }
+
     :root {
       --bg-dark: #0a0c14;
       --accent: #00e5ff;
@@ -17,19 +24,9 @@
       --text-medium: #8a95a1;
       --card-bg: rgba(0,229,255,0.1);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
 
-    /* === Body & Scroll Fix === */
-    body {
-      font-family: 'Roboto', sans-serif;
-      color: var(--text-light);
-      background: var(--bg-dark);
-      overflow-x: hidden;    /* lock horizontal scroll */
-      overflow-y: auto;      /* allow vertical scroll */
-      position: relative;
-    }
-
-    /* === Animated Gradient Background === */
+    /* animated gradient */
     body::before {
       content: '';
       position: fixed; top: 0; left: 0;
@@ -45,31 +42,20 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* === Drifting Geometric Shapes === */
+    /* drifting shapes */
     .shape {
-      position: fixed;
-      opacity: 0.1;
-      z-index: -2;
+      position: fixed; opacity: .1; z-index: -2;
       animation: drift 25s linear infinite, rotate 20s linear infinite;
+      pointer-events: none;
     }
-    .shape.circle {
-      width: 200px; height: 200px;
-      border-radius: 50%;
-      background: var(--accent);
-      top: 20%; left: 10%;
-    }
-    .shape.circle:nth-child(2) {
-      width: 150px; height: 150px;
-      top: 70%; left: 80%;
-      animation-delay: 5s;
-    }
+    .shape.circle { width:200px; height:200px; border-radius:50%; background:var(--accent); top:20%; left:10%; }
+    .shape.circle:nth-child(2) { width:150px; height:150px; top:70%; left:80%; animation-delay:5s; }
     .shape.triangle {
-      width: 0; height: 0;
-      border-left: 100px solid transparent;
-      border-right: 100px solid transparent;
-      border-bottom: 173px solid var(--accent-dark);
-      top: 50%; left: 50%;
-      animation-delay: 10s;
+      width:0; height:0;
+      border-left:100px solid transparent;
+      border-right:100px solid transparent;
+      border-bottom:173px solid var(--accent-dark);
+      top:50%; left:50%; animation-delay:10s;
     }
     @keyframes drift {
       0%   { transform: translate(0,0); }
@@ -78,171 +64,137 @@
       75%  { transform: translate(-20vw,20vh); }
       100% { transform: translate(0,0); }
     }
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
+    @keyframes rotate { from { transform: rotate(0deg);} to{transform:rotate(360deg);} }
 
-    /* === Navigation === */
+    /* nav */
     nav {
-      background: #111826;
-      padding: 20px;
-      text-align: center;
-      position: sticky; top: 0; z-index: 1;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+      background:#111826; padding:20px; text-align:center;
+      position:sticky; top:0; z-index:1;
+      box-shadow:0 2px 8px rgba(0,0,0,.7);
     }
     nav a {
-      color: var(--text-light);
-      margin: 0 20px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color .2s;
+      color:var(--text-light); margin:0 20px;
+      text-decoration:none; font-weight:500;
+      transition:color .2s;
     }
     nav a:hover { color: var(--accent); }
 
-    /* === Hero Section === */
+    /* header */
     header {
-      background: var(--bg-dark);
-      padding: 100px 20px;
-      text-align: center;
-      position: relative; z-index: 1;
+      background: var(--bg-dark); padding:100px 20px;
+      text-align:center; position:relative; z-index:1;
     }
     header h1 {
-      font-size: 3.5rem;
-      color: var(--accent);
-      animation: glow 2s infinite ease-in-out alternate;
+      font-size:3.5rem; color:var(--accent);
+      animation:glow 2s infinite alternate;
     }
     @keyframes glow {
-      0%,100% { text-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent-dark); }
-      50%     { text-shadow: 0 0 16px var(--accent), 0 0 24px var(--accent-dark); }
+      0%,100% { text-shadow:0 0 8px var(--accent),0 0 16px var(--accent-dark); }
+      50%     { text-shadow:0 0 16px var(--accent),0 0 24px var(--accent-dark); }
     }
     header p {
-      margin-top: 10px;
-      color: var(--text-medium);
-      font-size: 1.2rem;
+      margin-top:10px; color:var(--text-medium); font-size:1.2rem;
     }
 
-    /* === Main Container === */
+    /* container */
     .container {
-      width: 90%; max-width: 1000px;
-      margin: -50px auto 60px; position: relative; z-index: 1;
+      width:90%; max-width:1000px;
+      margin:-50px auto 60px; position:relative; z-index:1;
     }
 
-    /* === Image Preview Card === */
+    /* image card */
     .image-section {
-      background: var(--card-bg);
-      backdrop-filter: blur(8px);
-      padding: 30px;
-      border-radius: 12px;
-      border: 1px solid var(--accent-dark);
-      text-align: center;
-      animation: float 6s ease-in-out infinite;
+      background:var(--card-bg); backdrop-filter:blur(8px);
+      padding:30px; border-radius:12px;
+      border:1px solid var(--accent-dark);
+      text-align:center;
+      animation:float 6s ease-in-out infinite;
     }
     @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50%     { transform: translateY(-8px); }
+      0%,100% { transform:translateY(0); }
+      50%     { transform:translateY(-8px); }
     }
     .image-section img {
-      max-width: 100%;
-      border-radius: 6px;
-      border: 3px solid var(--accent);
-      box-shadow: 0 4px 20px rgba(0,229,255,0.5);
-      transition: transform .3s, box-shadow .3s;
+      max-width:100%; border-radius:6px;
+      border:3px solid var(--accent);
+      box-shadow:0 4px 20px rgba(0,229,255,.5);
+      transition:transform .3s,box-shadow .3s;
     }
     .image-section img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 30px rgba(0,229,255,0.7);
+      transform:scale(1.05);
+      box-shadow:0 6px 30px rgba(0,229,255,.7);
     }
-    .image-section p {
-      margin-top: 20px;
-      color: var(--text-medium);
-    }
+    .image-section p { margin-top:20px; color:var(--text-medium); }
 
-    /* === Call to Action Buttons === */
-    .login-signup-buttons {
-      text-align: center; margin: 40px 0; z-index: 1;
-    }
+    /* buttons */
+    .login-signup-buttons { text-align:center; margin:40px 0; z-index:1; }
     button {
-      background: var(--accent);
-      color: var(--bg-dark);
-      border: none;
-      padding: 16px 32px;
-      margin: 0 10px;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: 6px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,229,255,0.4);
-      transition: background .2s, transform .1s, box-shadow .2s;
+      background:var(--accent); color:var(--bg-dark);
+      border:none; padding:16px 32px; margin:0 10px;
+      font-size:1rem; font-weight:700; border-radius:6px;
+      cursor:pointer; box-shadow:0 4px 15px rgba(0,229,255,.4);
+      transition:background .2s,transform .1s,box-shadow .2s;
     }
     button:hover {
-      background: var(--accent-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(0,184,204,0.6);
+      background:var(--accent-dark); transform:translateY(-2px);
+      box-shadow:0 6px 25px rgba(0,184,204,.6);
     }
 
-    /* === Testimonials & Contact Form === */
+    /* testimonials & contact */
     .testimonials, .contact-form {
-      background: #111826;
-      padding: 50px 20px;
-      border-radius: 12px;
-      margin-bottom: 60px;
-      border-left: 4px solid var(--accent);
-      position: relative; z-index: 1;
+      background:#111826; padding:50px 20px;
+      border-radius:12px; margin-bottom:60px;
+      border-left:4px solid var(--accent);
+      position:relative; z-index:1;
     }
     .testimonials h3, .contact-form h3 {
-      color: var(--accent);
-      margin-bottom: 20px;
-      text-shadow: 0 0 6px var(--accent);
+      color:var(--accent); margin-bottom:20px;
+      text-shadow:0 0 6px var(--accent);
     }
     .testimonials p {
-      color: var(--text-medium);
-      margin: 12px 0;
-      font-style: italic;
+      color:var(--text-medium); margin:12px 0; font-style:italic;
     }
     .contact-form input, .contact-form textarea {
-      width: 80%; max-width: 400px;
-      margin: 10px 0; padding: 12px;
-      border-radius: 6px; border: 1px solid var(--accent-dark);
-      background: #0e1520; color: var(--text-light);
-      transition: border .2s, box-shadow .2s;
+      width:80%; max-width:400px; margin:10px 0; padding:12px;
+      border-radius:6px; border:1px solid var(--accent-dark);
+      background:#0e1520; color:var(--text-light);
+      transition:border .2s,box-shadow .2s;
     }
     .contact-form input:focus, .contact-form textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      outline: none;
+      border-color:var(--accent);
+      box-shadow:0 0 8px var(--accent); outline:none;
     }
-    .contact-form textarea { height: 120px; resize: none; }
+    .contact-form textarea { height:120px; resize:none; }
 
-    /* === Footer === */
+    /* footer */
     footer {
-      background: #111826; color: var(--text-medium);
-      text-align: center; padding: 20px 0; font-size: 0.9rem;
-      border-top: 1px solid var(--accent-dark);
-      position: relative; z-index: 1;
+      background:#111826; color:var(--text-medium);
+      text-align:center; padding:20px 0; font-size:.9rem;
+      border-top:1px solid var(--accent-dark);
+      position:relative; z-index:1;
     }
     footer a {
-      color: var(--text-light); margin: 0 8px;
-      text-decoration: none; transition: color .2s;
+      color:var(--text-light); margin:0 8px;
+      text-decoration:none; transition:color .2s;
     }
-    footer a:hover { color: var(--accent); }
+    footer a:hover { color:var(--accent); }
 
-    /* === Responsive === */
-    @media (max-width: 600px) {
-      header h1 { font-size: 2.5rem; }
-      nav a { margin: 0 8px; font-size: 0.9rem; }
-      button { display: block; width: 80%; margin: 12px auto; }
+    /* responsive */
+    @media (max-width:600px) {
+      header h1 { font-size:2.5rem; }
+      nav a { margin:0 8px; font-size:.9rem; }
+      button { display:block; width:80%; margin:12px auto; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Drifting Shapes -->
+  <!-- drifting shapes -->
   <div class="shape circle"></div>
   <div class="shape circle"></div>
   <div class="shape triangle"></div>
 
-  <!-- Navigation -->
+  <!-- navigation -->
   <nav>
     <a href="#">Home</a>
     <a href="#">About</a>
@@ -250,13 +202,13 @@
     <a href="#">Services</a>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- hero -->
   <header>
     <h1>Image Generator</h1>
     <p>AI‑powered image creation in seconds—no design skills needed.</p>
   </header>
 
-  <!-- Main Content -->
+  <!-- content -->
   <div class="container">
     <div class="image-section">
       <img
@@ -289,7 +241,7 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- footer -->
   <footer>
     &copy; 2025 Image Generator, Inc. |
     <a href="#">Privacy Policy</a> |
@@ -297,3 +249,4 @@
   </footer>
 </body>
 </html>
+
