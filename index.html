@@ -1,317 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Image Generator – AI‑Powered Image Creation</title>
-  <meta name="description" content="Create next‑gen images in seconds with our AI tool.">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Create next‑gen images in seconds with our AI tool."/>
+  <meta name="author" content="Image Generator Inc."/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
   <style>
-    /* Reset & Variables */
-    html, body { margin:0; padding:0; width:100%; height:100%; overflow-x:hidden; overflow-y:auto; }
-    *, *::before, *::after { box-sizing:border-box; }
+    /* Reset & Scroll */
+    html, body { margin:0; padding:0; overflow-x:hidden; overflow-y:auto; }
+    * { box-sizing:border-box; }
+
     :root {
       --bg-dark: #0a0c14;
-      --bg-light: #f7f7f7;
       --accent: #00e5ff;
       --accent-dark: #00b8cc;
       --text-light: #f0f4f8;
-      --text-dark: #111;
+      --text-medium: #8a95a1;
       --card-bg: rgba(0,229,255,0.1);
-      --font: 'Roboto', sans-serif;
     }
-    body { font-family: var(--font); margin:0; padding:0; background:var(--bg-dark); color:var(--text-light); position:relative; }
-    body[data-theme="light"] { background:var(--bg-light); color:var(--text-dark); }
 
-    /* Gradient Background */
-    body::before {
-      content:''; position:fixed; top:0; left:0; width:100%; height:100%;
-      background:linear-gradient(60deg,#0f1a2f,#1b273f,#001f3f,#0a0c14);
-      background-size:400% 400%; animation:gradient 20s ease infinite; z-index:-3;
+    body {
+      font-family:'Roboto', sans-serif;
+      color: var(--text-light);
+      background: var(--bg-dark);
+      position: relative;
     }
-    @keyframes gradient { 0%,100%{background-position:0% 50%}50%{background-position:100% 50%} }
+    /* Animated Gradient */
+    body::before {
+      content:''; position:fixed; top:0; left:0;
+      width:100%; height:100%;
+      background: linear-gradient(60deg,#0f1a2f,#1b273f,#001f3f,#0a0c14);
+      background-size:400% 400%; animation:gradientBG 30s ease infinite;
+      z-index:-3;
+    }
+    @keyframes gradientBG {
+      0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
+    }
 
     /* Particle Canvas */
-    #bg-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-2; }
+    #bg-canvas {
+      position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;
+    }
 
     /* Navigation */
     nav {
-      position:sticky; top:0; z-index:2;
-      background:rgba(17,24,38,0.9); padding:12px; text-align:center;
+      background: rgba(17,24,38,0.8);
+      padding:20px; text-align:center; position:sticky; top:0; z-index:2;
+      box-shadow:0 2px 8px rgba(0,0,0,0.7);
     }
-    nav a, nav button {
-      margin:0 10px; color:inherit; text-decoration:none;
-      font-weight:500; background:none; border:none; cursor:pointer;
-      font-size:1rem;
+    nav a {
+      display:inline-block; margin:0 20px;
+      color:var(--text-light); text-decoration:none;
+      font-weight:500; transition:color .2s;
     }
-    nav button { font-size:1.2rem; }
-    nav a:hover, nav button:hover { color:var(--accent); }
+    nav a:hover { color: var(--accent); }
 
-    /* Hero & Prompt */
+    /* Hero (more compact) */
     header {
-      padding:30px 20px 20px; text-align:center; position:relative; z-index:1;
+      background:transparent;
+      padding:30px 20px 20px;
+      text-align:center; position:relative; z-index:1;
     }
     header h1 {
-      margin:0; font-size:3rem; color:var(--accent);
+      font-size:3.5rem; color:var(--accent);
       animation:glow 2s infinite alternate;
     }
-    header p { margin:8px 0 16px; font-size:1.1rem; }
-    @keyframes glow { 0%,100%{text-shadow:0 0 8px var(--accent),0 0 16px var(--accent-dark);}50%{text-shadow:0 0 16px var(--accent),0 0 24px var(--accent-dark);} }
-    .prompt-ui {
-      display:inline-flex; gap:8px; margin-top:16px;
+    @keyframes glow {
+      0%,100% { text-shadow:0 0 8px var(--accent),0 0 16px var(--accent-dark); }
+      50%     { text-shadow:0 0 16px var(--accent),0 0 24px var(--accent-dark); }
     }
-    .prompt-ui input {
-      padding:8px; border-radius:4px; border:1px solid var(--accent-dark);
-      font-size:1rem; width:200px;
-    }
-    .prompt-ui button {
-      padding:8px 16px; border:none; border-radius:4px;
-      background:var(--accent); color:var(--bg-dark);
-      cursor:pointer; font-size:1rem;
+    header p {
+      margin-top:8px; color:var(--text-medium); font-size:1.1rem;
     }
 
-    /* Loading */
-    #loading {
-      margin-top:12px; display:flex; flex-direction:column; align-items:center;
-    }
-    #loading progress { width:150px; }
-
-    /* Main & Gallery */
+    /* Main Container (pulled up) */
     .container {
-      width:90%; max-width:800px; margin:-20px auto 60px; position:relative; z-index:1;
+      width:90%; max-width:1000px;
+      margin:-20px auto 60px;
+      position:relative; z-index:1;
     }
+
+    /* Image Card */
     .image-section {
       background:var(--card-bg); backdrop-filter:blur(8px);
-      padding:20px; border-radius:8px; text-align:center;
+      padding:30px; border-radius:12px;
+      border:1px solid var(--accent-dark);
+      text-align:center;
       animation:float 6s ease-in-out infinite;
     }
-    @keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);} }
-    #main-image {
-      width:100%; border:2px solid var(--accent); border-radius:4px;
+    @keyframes float {
+      0%,100% { transform:translateY(0); }
+      50%     { transform:translateY(-8px); }
     }
-    #save-btn, #share-btn {
-      margin:12px 6px; padding:8px 16px; border:none; border-radius:4px;
-      background:var(--accent-dark); color:var(--bg-dark); cursor:pointer;
+    .image-section img {
+      max-width:100%; border-radius:6px;
+      border:3px solid var(--accent);
+      box-shadow:0 4px 20px rgba(0,229,255,0.5);
+      transition:transform .3s,box-shadow .3s;
     }
-    #gallery {
-      margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;
+    .image-section img:hover {
+      transform:scale(1.05);
+      box-shadow:0 6px 30px rgba(0,229,255,0.7);
     }
-    #gallery img {
-      width:120px; border:1px solid var(--accent); border-radius:4px;
+    .image-section p {
+      margin-top:20px; color:var(--text-medium);
+    }
+
+    /* Buttons */
+    .login-signup-buttons {
+      text-align:center; margin:20px 0; z-index:1;
+    }
+    button {
+      background:var(--accent); color:var(--bg-dark);
+      border:none; padding:14px 28px; margin:0 8px;
+      font-size:1rem; font-weight:700; border-radius:6px;
+      cursor:pointer; box-shadow:0 4px 15px rgba(0,229,255,0.4);
+      transition:background .2s,transform .1s,box-shadow .2s;
+    }
+    button:hover {
+      background:var(--accent-dark); transform:translateY(-2px);
+      box-shadow:0 6px 25px rgba(0,184,204,0.6);
     }
 
     /* Testimonials & Contact */
     .testimonials, .contact-form {
-      background:rgba(17,24,38,0.9); padding:30px 20px;
-      border-radius:8px; margin:40px 0; border-left:4px solid var(--accent);
+      background:#111826; padding:50px 20px;
+      border-radius:12px; margin-bottom:60px;
+      border-left:4px solid var(--accent);
+      position:relative; z-index:1;
+    }
+    .testimonials h3, .contact-form h3 {
+      color:var(--accent); margin-bottom:20px;
+      text-shadow:0 0 6px var(--accent);
+    }
+    .testimonials p {
+      color:var(--text-medium); margin:12px 0; font-style:italic;
     }
     .contact-form input, .contact-form textarea {
-      display:block; width:80%; max-width:300px; padding:8px;
-      margin:8px 0; border-radius:4px; border:1px solid var(--accent-dark);
+      width:80%; max-width:400px; margin:10px 0;
+      padding:12px; border-radius:6px;
+      border:1px solid var(--accent-dark);
+      background:#0e1520; color:var(--text-light);
+      transition:border .2s,box-shadow .2s;
     }
-    .contact-form button {
-      padding:8px 16px; border:none; border-radius:4px;
-      background:var(--accent); color:var(--bg-dark); cursor:pointer;
+    .contact-form input:focus, .contact-form textarea:focus {
+      border-color:var(--accent); box-shadow:0 0 8px var(--accent);
+      outline:none;
     }
+    .contact-form textarea { height:120px; resize:none; }
 
     /* Footer */
     footer {
-      text-align:center; padding:20px; background:rgba(17,24,38,0.9);
+      background:#111826; color:var(--text-medium);
+      text-align:center; padding:20px 0; font-size:0.9rem;
+      border-top:1px solid var(--accent-dark);
+      position:relative; z-index:1;
     }
-    footer a { margin:0 8px; color:inherit; text-decoration:none; }
+    footer a {
+      color:var(--text-light); margin:0 8px;
+      text-decoration:none; transition:color .2s;
+    }
     footer a:hover { color:var(--accent); }
 
     /* Responsive */
     @media (max-width:600px){
       header h1 { font-size:2.5rem; }
-      nav a, nav button { margin:0 6px; font-size:0.9rem; }
-      .prompt-ui input { width:140px; }
+      nav a { margin:0 8px; font-size:0.9rem; }
+      button { display:block; width:80%; margin:12px auto; }
     }
   </style>
 </head>
-<body data-theme="dark">
+<body>
 
+  <!-- Particle Canvas -->
   <canvas id="bg-canvas"></canvas>
 
-  <nav aria-label="Main navigation">
+  <!-- Navigation -->
+  <nav>
     <a href="#">Home</a>
     <a href="#">About</a>
     <a href="#">Contact</a>
     <a href="#">Services</a>
-    <button id="theme-toggle" aria-label="Toggle theme">🌓</button>
   </nav>
 
+  <!-- Hero Section (even higher) -->
   <header>
     <h1>Image Generator</h1>
     <p>AI‑powered image creation in seconds—no design skills needed.</p>
-    <div class="prompt-ui" role="form" aria-label="Image prompt">
-      <input id="prompt-input" type="text" placeholder="Enter prompt…" />
-      <button id="generate-btn">Generate</button>
-    </div>
-    <div id="loading" hidden aria-live="polite">
-      <progress id="load-bar" max="100" value="0"></progress>
-    </div>
   </header>
 
+  <!-- Main Content -->
   <div class="container">
-    <div class="image-section" aria-live="polite">
-      <img id="main-image" alt="Generated preview">
+    <div class="image-section">
+      <img
+        src="https://img.freepik.com/premium-photo/modern-future-hd-8k-wall-paper-stock-photographic-image_890746-94541.jpg"
+        alt="AI Generated Futuristic Cityscape"
+        onerror="this.onerror=null; this.src='https://source.unsplash.com/800x400/?ai,abstract,cyberpunk';"
+      />
+      <p>Upload your prompt, choose a style, and get high‑quality images instantly.</p>
     </div>
-    <button id="save-btn">Save to Gallery</button>
-    <button id="share-btn">Share</button>
-    <div id="gallery" aria-label="Saved images"></div>
+
+    <div class="login-signup-buttons">
+      <button onclick="location.href='#';">Login</button>
+      <button onclick="location.href='https://www.youtube.com/watch?v=dQw4w9WgXcQ';">Sign Up</button>
+    </div>
 
     <div class="testimonials">
       <h3>What Our Users Say</h3>
-      <p>“Mind‑blowing tool!” – Alex</p>
-      <p>“Incredibly realistic images.” – Maria</p>
+      <p>“This AI tool saved me hours of design work. Absolutely mind‑blowing!” – Alex P.</p>
+      <p>“I can’t believe how realistic these images look. Best free tool out there.” – Maria R.</p>
     </div>
 
     <div class="contact-form">
       <h3>Get in Touch</h3>
       <form>
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <textarea placeholder="Your Message" required></textarea>
-        <button type="submit">Send</button>
+        <input type="text" placeholder="Your Name" required /><br/>
+        <input type="email" placeholder="Your Email" required /><br/>
+        <textarea placeholder="Your Message" required></textarea><br/>
+        <button type="submit">Send Message</button>
       </form>
     </div>
   </div>
 
-  <footer role="contentinfo">
-    &copy; 2025 Image Generator | <a href="#">Privacy</a> | <a href="#">Terms</a>
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Image Generator, Inc. |
+    <a href="#">Privacy Policy</a> |
+    <a href="#">Terms of Service</a>
   </footer>
 
   <script>
-    // Theme Toggle
-    document.getElementById('theme-toggle').onclick = () => {
-      const body = document.body;
-      body.setAttribute('data-theme',
-        body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
-      );
-    };
-
-    // Fake Generation Workflow
-    const genBtn = document.getElementById('generate-btn'),
-          loadDiv = document.getElementById('loading'),
-          loadBar = document.getElementById('load-bar'),
-          mainImg = document.getElementById('main-image');
-    genBtn.onclick = () => {
-      loadBar.value = 0; loadDiv.hidden = false;
-      let prog = 0;
-      const iv = setInterval(() => {
-        prog += 10; loadBar.value = prog;
-        if (prog >= 100) {
-          clearInterval(iv);
-          loadDiv.hidden = true;
-          mainImg.src = 'https://source.unsplash.com/800x400/?cyberpunk,ai';
-        }
-      }, 200);
-    };
-
-    // Gallery Save
-    document.getElementById('save-btn').onclick = () => {
-      if (mainImg.src) {
-        const thumb = mainImg.cloneNode();
-        document.getElementById('gallery').appendChild(thumb);
-      }
-    };
-
-    // Share Stub
-    document.getElementById('share-btn').onclick = () => {
-      alert('Share this link with a friend to Rickroll them!');
-    };
-
-    // Konami Code
-    const konami = [38,38,40,40,37,39,37,39,66,65];
-    let idx = 0;
-    window.addEventListener('keydown', e => {
-      if (e.keyCode === konami[idx]) {
-        idx++;
-        if (idx === konami.length) {
-          window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-        }
-      } else {
-        idx = 0;
-      }
-    });
-
     // Particle Network
     const canvas = document.getElementById('bg-canvas'),
           ctx = canvas.getContext('2d');
-    let particles = [], hue = 180;
-    function resize() {
-      canvas.width = innerWidth; canvas.height = innerHeight;
-    }
+    let particles = [], hue = 200;
+    function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
     window.addEventListener('resize', resize);
     resize();
 
     class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.7;
-        this.vy = (Math.random() - 0.5) * 0.7;
-        this.size = Math.random() * 2 + 1;
+      constructor(){
+        this.x = Math.random()*canvas.width;
+        this.y = Math.random()*canvas.height;
+        this.vx = (Math.random()-0.5)*0.5;
+        this.vy = (Math.random()-0.5)*0.5;
+        this.size = Math.random()*2+1;
       }
-      update() {
+      update(){
         this.x += this.vx; this.y += this.vy;
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        if(this.x<0||this.x>canvas.width) this.vx*=-1;
+        if(this.y<0||this.y>canvas.height) this.vy*=-1;
       }
-      draw() {
+      draw(){
         ctx.fillStyle = `hsla(${hue},80%,60%,0.7)`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill();
       }
     }
 
-    function initParticles(count = 120) {
-      particles = [];
-      for (let i = 0; i < count; i++) {
-        particles.push(new Particle());
-      }
+    function initParticles(n=120){
+      particles=[]; for(let i=0;i<n;i++) particles.push(new Particle());
     }
-    function connectParticles() {
-      for (let a = 0; a < particles.length; a++) {
-        for (let b = a + 1; b < particles.length; b++) {
-          const dx = particles[a].x - particles[b].x;
-          const dy = particles[a].y - particles[b].y;
-          const dist = Math.hypot(dx, dy);
-          if (dist < 100) {
-            ctx.strokeStyle = `hsla(${hue},80%,60%,${1 - dist/100})`;
-            ctx.lineWidth = 1;
+    function connect(){
+      for(let i=0;i<particles.length;i++){
+        for(let j=i+1;j<particles.length;j++){
+          let dx=particles[i].x-particles[j].x,
+              dy=particles[i].y-particles[j].y,
+              d=Math.hypot(dx,dy);
+          if(d<100){
+            ctx.strokeStyle=`hsla(${hue},80%,60%,${1-d/100})`;
+            ctx.lineWidth=1;
             ctx.beginPath();
-            ctx.moveTo(particles[a].x, particles[a].y);
-            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.moveTo(particles[i].x,particles[i].y);
+            ctx.lineTo(particles[j].x,particles[j].y);
             ctx.stroke();
           }
         }
       }
     }
-
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => { p.update(); p.draw(); });
-      connectParticles();
-      hue = (hue + 0.1) % 360;
-      requestAnimationFrame(animateParticles);
+    function animate(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p=>{p.update();p.draw();});
+      connect(); hue=(hue+0.1)%360;
+      requestAnimationFrame(animate);
     }
 
-    initParticles();
-    animateParticles();
+    initParticles(); animate();
 
-    // Mouse repel
     canvas.addEventListener('mousemove', e => {
-      const mx = e.clientX, my = e.clientY;
-      particles.forEach(p => {
-        const dx = p.x - mx, dy = p.y - my;
-        const d = Math.hypot(dx, dy);
-        if (d < 100) {
-          p.vx += (dx/d) * 0.05;
-          p.vy += (dy/d) * 0.05;
-        }
+      const mx=e.clientX,my=e.clientY;
+      particles.forEach(p=>{
+        let dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);
+        if(d<100){ p.vx+=(dx/d)*0.05; p.vy+=(dy/d)*0.05; }
       });
     });
   </script>
