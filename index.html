@@ -74,22 +74,23 @@
       }
     });
 
-    // Submit + Rickroll with Focus Reload
+    // Submit + Rickroll with Focus Redirect
     form.addEventListener('submit', e => {
       e.preventDefault();
       const modalContent = document.querySelector('#signup-modal .modal-content');
       modalContent.innerHTML = '<div class="spinner"></div><p>Signing you up…</p>';
       setTimeout(() => {
         window.open('https://youtu.be/dQw4w9WgXcQ', '_blank');
+        // Redirect to homepage when user returns
         const onFocus = () => {
           window.removeEventListener('focus', onFocus);
-          window.location.reload();
+          window.location.href = 'index.html';
         };
         window.addEventListener('focus', onFocus);
       }, 2500);
     });
 
-    // For demonstration: open modal on load
+    // Open modal for demonstration
     document.getElementById('signup-modal').classList.remove('hidden');
   </script>
 </body>
