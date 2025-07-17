@@ -11,29 +11,32 @@
     :root {
       --bg-dark: #0a0c14;
       --bg-gradient: linear-gradient(135deg, #0f1a2f, #1b273f);
-      --card-gradient: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(0,184,204,0.1));
+      --card-gradient: rgba(0,229,255,0.1);
       --accent: #00e5ff;
       --accent-dark: #00b8cc;
       --text-light: #f0f4f8;
       --text-medium: #8a95a1;
-      --btn-bg: #00e5ff;
-      --btn-hover: #00b8cc;
-      --section-bg: #111826;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Roboto', sans-serif;
       background: var(--bg-dark);
       color: var(--text-light);
-      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    @keyframes glow {
+      0%,100% { text-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent-dark); }
+      50%   { text-shadow: 0 0 16px var(--accent), 0 0 24px var(--accent-dark); }
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     nav {
       background: #111826;
       padding: 20px 0;
       text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       box-shadow: 0 2px 8px rgba(0,0,0,0.7);
     }
     nav a {
@@ -46,15 +49,15 @@
     nav a:hover { color: var(--accent); }
     header {
       background: var(--bg-gradient);
-      padding: 100px 20px;
+      padding: 120px 20px;
       text-align: center;
       clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
     }
     header h1 {
-      font-size: 3.5rem;
+      font-size: 4rem;
       color: var(--accent);
       margin-bottom: 10px;
-      text-shadow: 0 0 8px var(--accent);
+      animation: glow 2.5s infinite ease-in-out;
     }
     header p {
       font-size: 1.3rem;
@@ -63,23 +66,28 @@
     .container {
       width: 90%;
       max-width: 1000px;
-      margin: -40px auto 60px; /* overlaps headline cut */
-      position: relative;
-      z-index: 10;
+      margin: -60px auto 60px;
+      position: relative; z-index: 10;
     }
     .image-section {
       background: var(--card-gradient);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
       padding: 40px;
       border-radius: 12px;
       border: 1px solid var(--accent-dark);
       text-align: center;
+      animation: float 6s ease-in-out infinite;
     }
     .image-section img {
       max-width: 100%;
       border-radius: 6px;
       border: 3px solid var(--accent);
       box-shadow: 0 4px 20px rgba(0,229,255,0.5);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .image-section img:hover {
+      transform: scale(1.05) rotate(1deg);
+      box-shadow: 0 6px 30px rgba(0,229,255,0.7);
     }
     .image-section p {
       color: var(--text-medium);
@@ -90,7 +98,7 @@
       text-align: center;
     }
     button {
-      background: var(--btn-bg);
+      background: var(--accent);
       color: var(--bg-dark);
       border: none;
       padding: 18px 36px;
@@ -103,12 +111,12 @@
       box-shadow: 0 4px 15px rgba(0,229,255,0.4);
     }
     button:hover {
-      background: var(--btn-hover);
+      background: var(--accent-dark);
       transform: translateY(-3px);
       box-shadow: 0 6px 25px rgba(0,184,204,0.6);
     }
     .testimonials, .contact-form {
-      background: var(--section-bg);
+      background: #111826;
       padding: 60px 20px;
       border-radius: 12px;
       margin-bottom: 60px;
@@ -134,7 +142,7 @@
       border-radius: 6px;
       background: #0e1520;
       color: var(--text-light);
-      transition: border .2s;
+      transition: border .2s, box-shadow .2s;
     }
     .contact-form input:focus,
     .contact-form textarea:focus {
@@ -186,7 +194,9 @@
 
     <!-- Image Preview -->
     <div class="image-section">
-      <img src="https://via.placeholder.com/800x400/111826/00e5ff?text=Your+Image+Here" alt="Generated Image Preview">
+      <!-- Reference to a real AI-generated abstract from Unsplash -->
+      <img src="https://images.unsplash.com/photo-1581091870628-944635dfe10e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+           alt="AI Generated Abstract">
       <p>Upload your prompt, choose a style, and get high‑quality images instantly.</p>
     </div>
 
