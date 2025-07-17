@@ -18,62 +18,32 @@
       --card-bg: rgba(0,229,255,0.1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-light);
-    }
+    body { font-family: 'Roboto', sans-serif; background: var(--bg-dark); color: var(--text-light); }
     nav {
-      background: #111826;
-      padding: 20px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      background: #111826; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
     }
-    nav a {
-      color: var(--text-light);
-      margin: 0 20px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color .2s;
-    }
+    nav a { color: var(--text-light); margin: 0 20px; text-decoration: none; font-weight: 500; transition: color .2s; }
     nav a:hover { color: var(--accent); }
     header {
-      background: var(--bg-gradient);
-      padding: 100px 20px;
-      text-align: center;
+      background: var(--bg-gradient); padding: 100px 20px; text-align: center;
       clip-path: polygon(0 0,100% 0,100% 85%,0 100%);
     }
     header h1 {
-      font-size: 3.5rem;
-      color: var(--accent);
-      text-shadow: 0 0 8px var(--accent);
+      font-size: 3.5rem; color: var(--accent); text-shadow: 0 0 8px var(--accent);
       animation: glow 2.5s infinite ease-in-out;
     }
-    header p {
-      margin-top: 10px;
-      color: var(--text-medium);
-      font-size: 1.2rem;
-    }
+    header p { margin-top: 10px; color: var(--text-medium); font-size: 1.2rem; }
     @keyframes glow {
       0%,100% { text-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent-dark); }
       50%   { text-shadow: 0 0 16px var(--accent), 0 0 24px var(--accent-dark); }
     }
     .container {
-      width: 90%;
-      max-width: 1000px;
-      margin: -50px auto 60px;
-      position: relative;
-      z-index: 5;
+      width: 90%; max-width: 1000px; margin: -50px auto 60px; position: relative; z-index: 5;
     }
     .image-section {
-      background: var(--card-bg);
-      backdrop-filter: blur(8px);
-      padding: 30px;
-      border-radius: 12px;
-      border: 1px solid var(--accent-dark);
-      text-align: center;
+      background: var(--card-bg); backdrop-filter: blur(8px); padding: 30px;
+      border-radius: 12px; border: 1px solid var(--accent-dark); text-align: center;
       animation: float 6s ease-in-out infinite;
     }
     @keyframes float {
@@ -81,9 +51,7 @@
       50% { transform: translateY(-8px); }
     }
     .image-section img {
-      max-width: 100%;
-      border-radius: 6px;
-      border: 3px solid var(--accent);
+      max-width: 100%; border-radius: 6px; border: 3px solid var(--accent);
       box-shadow: 0 4px 20px rgba(0,229,255,0.5);
       transition: transform .3s, box-shadow .3s;
     }
@@ -91,82 +59,49 @@
       transform: scale(1.05);
       box-shadow: 0 6px 30px rgba(0,229,255,0.7);
     }
-    .image-section p {
-      margin-top: 20px;
-      color: var(--text-medium);
-    }
-    .login-signup-buttons {
-      text-align: center;
-      margin: 40px 0;
-    }
+    .image-section p { margin-top: 20px; color: var(--text-medium); }
+    .login-signup-buttons { text-align: center; margin: 40px 0; }
     button {
-      background: var(--accent);
-      color: var(--bg-dark);
-      border: none;
-      padding: 16px 32px;
-      margin: 0 10px;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: 6px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,229,255,0.4);
+      background: var(--accent); color: var(--bg-dark); border: none;
+      padding: 16px 32px; margin: 0 10px; font-size: 1rem; font-weight: 700;
+      border-radius: 6px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,229,255,0.4);
       transition: background .2s, transform .1s, box-shadow .2s;
     }
     button:hover {
-      background: var(--accent-dark);
-      transform: translateY(-2px);
+      background: var(--accent-dark); transform: translateY(-2px);
       box-shadow: 0 6px 25px rgba(0,184,204,0.6);
     }
     .testimonials, .contact-form {
-      background: #111826;
-      padding: 50px 20px;
-      border-radius: 12px;
-      margin-bottom: 60px;
-      border-left: 4px solid var(--accent);
+      background: #111826; padding: 50px 20px; border-radius: 12px;
+      margin-bottom: 60px; border-left: 4px solid var(--accent);
     }
     .testimonials h3, .contact-form h3 {
-      color: var(--accent);
-      margin-bottom: 20px;
-      text-shadow: 0 0 6px var(--accent);
+      color: var(--accent); margin-bottom: 20px; text-shadow: 0 0 6px var(--accent);
     }
     .testimonials p {
-      color: var(--text-medium);
-      margin: 12px 0;
-      font-style: italic;
+      color: var(--text-medium); margin: 12px 0; font-style: italic;
     }
     .contact-form input, .contact-form textarea {
-      width: 80%;
-      max-width: 400px;
-      margin: 10px 0;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid var(--accent-dark);
-      background: #0e1520;
-      color: var(--text-light);
+      width: 80%; max-width: 400px; margin: 10px 0; padding: 12px;
+      border-radius: 6px; border: 1px solid var(--accent-dark);
+      background: #0e1520; color: var(--text-light);
       transition: border .2s, box-shadow .2s;
     }
     .contact-form input:focus, .contact-form textarea:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      outline: none;
+      box-shadow: 0 0 8px var(--accent); outline: none;
     }
     .contact-form textarea { height: 120px; resize: none; }
     footer {
-      background: #111826;
-      color: var(--text-medium);
-      text-align: center;
-      padding: 20px 0;
-      font-size: 0.9rem;
+      background: #111826; color: var(--text-medium);
+      text-align: center; padding: 20px 0; font-size: 0.9rem;
       border-top: 1px solid var(--accent-dark);
     }
     footer a {
-      color: var(--text-light);
-      margin: 0 8px;
-      text-decoration: none;
-      transition: color .2s;
+      color: var(--text-light); margin: 0 8px;
+      text-decoration: none; transition: color .2s;
     }
     footer a:hover { color: var(--accent); }
-
     @media (max-width: 600px) {
       header h1 { font-size: 2.5rem; }
       nav a { margin: 0 8px; font-size: 0.9rem; }
@@ -196,7 +131,7 @@
     <!-- Preview Card -->
     <div class="image-section">
       <img
-        src="sample-preview.png"
+        src="https://img.freepik.com/premium-photo/modern-future-hd-8k-wall-paper-stock-photographic-image_890746-94541.jpg"
         alt="AI Generated Futuristic Cityscape"
         onerror="this.onerror=null; this.src='https://source.unsplash.com/800x400/?ai,abstract,cyberpunk';"
       />
